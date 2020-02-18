@@ -29,7 +29,7 @@ vex::motor lin (vex::PORT9, false); //correct
 //arm motor config
 vex::motor arm (vex::PORT11, true); 
 
-//tilter motor and limit switch config
+//tilter motor config (limit switch config declared robot-config.h and defined in robot-config.cpp)
 vex::motor tray(vex::PORT14, true);                        
 
 
@@ -59,7 +59,7 @@ void moveArm(int pct) {
   }
 }
 
-void armControl() {  
+int armControl() {  
 if (Controller.ButtonX.pressing()){
   moveArm(-80);
 } else if (Controller.ButtonB.pressing()){
@@ -67,6 +67,7 @@ if (Controller.ButtonX.pressing()){
 } else {
   moveArm(5);
 }
+return 1;
 }
 
 /////////////////intake code//////////////////////////////////////////////////////////////////////
@@ -122,14 +123,28 @@ void limitTest(){  //tests if limit switch works. it does.
   }
 }
 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int main() {
+/*task notes
+
+declare and define a task in the main. use this --> vex::task taskName(functionTaskCalls);
+the function a task calls must be an int, meaning the function must return an int. which, we don't always want. in that case, you can put everything you need in a while that's always true
+
+*/
+
+int main() {  //beginning of code
 
 // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  
-  while (1){
+
+
+  vex::task allowsTankDriveForUserTask(drive);
+  vex::task controlArmsTask(armControl);
+
+
+  while (1){ //always have a while, though if all your functions are tasks (which they should be) then this loop should be empty (note it should still be present)
 
     setDrive(Controller.Axis3.value()*100/127.0, Controller.Axis2.value()*100/127.0);
     intakeControl();

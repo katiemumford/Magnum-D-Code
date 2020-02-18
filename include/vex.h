@@ -16,6 +16,7 @@
 #include "v5_vcs.h"
 
 #include "robot-config.h"
+#include "driveBaseControl.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
