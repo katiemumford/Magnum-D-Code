@@ -11,44 +11,8 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
-
 using namespace vex;
-
-vex::controller Controller;
-
-//drive base motor configs
-vex::motor rF (vex::PORT10, false); //right front: port 10  --> correct, note motor facing backwards
-vex::motor rB (vex::PORT4, false);  //right back: port 5    --> correct, note motor facing backwards
-vex::motor lF (vex::PORT3, true);  //left front: 3         --> correct  
-vex::motor lB (vex::PORT12, true);   //left back: 12       --> correct 
-
-//intake motor config
-vex::motor rin (vex::PORT13, true); //correct
-vex::motor lin (vex::PORT9, false); //correct
-
-//arm motor config
-vex::motor arm (vex::PORT11, true); 
-
-//tilter motor config (limit switch config declared robot-config.h and defined in robot-config.cpp)
-vex::motor tray(vex::PORT14, true);                        
-
-
-/////////////////////drive code////////////////////////////////////////////////////////////////
-
-int minPct = 5; //minimum controller value (%) for drive, accounts for stick drift
-
-void setDrive(double l, double r) { //voltage drive
-  if (l < minPct && l > -minPct) { l = 0; }
-  if (r < minPct && r > -minPct) { r = 0; } //accounts for stick drift
-  l *= 12.0/100;
-  r *= 12.0/100; //converts to volts
-
-  lF.spin(vex::directionType::fwd, l, vex::voltageUnits::volt);
-  lB.spin(vex::directionType::fwd, l, vex::voltageUnits::volt);
-  rF.spin(vex::directionType::fwd, r, vex::voltageUnits::volt);
-  rB.spin(vex::directionType::fwd, r, vex::voltageUnits::volt);
-}
-
+ 
 ///////////////////////arm code//////////////////////////////////////////////////////////////////
 
 void moveArm(int pct) {   
@@ -141,12 +105,11 @@ int main() {  //beginning of code
 
 
   vex::task allowsTankDriveForUserTask(drive);
-  vex::task controlArmsTask(armControl);
+  //vex::task controlArmsTask(armControl);
 
 
   while (1){ //always have a while, though if all your functions are tasks (which they should be) then this loop should be empty (note it should still be present)
 
-    setDrive(Controller.Axis3.value()*100/127.0, Controller.Axis2.value()*100/127.0);
     intakeControl();
     armControl();
     trayControl();
