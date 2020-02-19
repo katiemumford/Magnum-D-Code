@@ -31,7 +31,7 @@ int main() {  //beginning of code
 
 // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  
+
   task allowDriveForUserTask(allowDriveForUser);
   task allowTrayForUserTask(allowTrayForUser);
   task allowIntakeForUserTask(allowIntakeForUser);
