@@ -18,6 +18,9 @@
 //DECLARE ALL OTHER HEADER FILES HERE
 #include "robot-config.h"
 #include "driveBaseControl.h"
+#include "trayControl.h"
+#include "intakeControl.h"
+#include "armControl.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

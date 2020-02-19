@@ -8,4 +8,4 @@ anything the main doesn't directly touch doesn't need to be defined (ints as wel
 *note within driveBaseControl.cpp there is an int for pct and setDrive function
 */
 
-int drive();
+int allowDriveForUser();

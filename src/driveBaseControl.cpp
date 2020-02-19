@@ -1,6 +1,8 @@
 #include "vex.h"
 using namespace vex;
 
+//all arm related functions
+
 //in a .cpp file, always include the #include "vex.h" as well as using namespace vex;
 
  int minPct = 5; //minimum controller value (%) for drive, accounts for stick drift
@@ -17,7 +19,7 @@ using namespace vex;
   rB.spin(vex::directionType::fwd, r, vex::voltageUnits::volt);
 }
 
-int drive(){     //function that task calls
+int allowDriveForUser(){     //function that task calls
   while (true){
     setDrive(Controller.Axis3.value()*100/127.0, Controller.Axis2.value()*100/127.0);
     task::sleep(5);
