@@ -53,31 +53,6 @@ int aPressed(){
     }
     return 0; 
 }
-
-  /*
-else if (buttonNumber == 2){                  //2 --> Y
-    if (Controller.ButtonY.pressing()){
-      return 1;
-    } else {
-      return 0;
-    }
-  } 
-  else if (buttonNumber == 3){                //3 --> A
-    if (Controller.ButtonA.pressing()){
-      return 1;
-    } else {
-      return 0;
-    }
-  }
-  else if (buttonNumber == 4){                //4 --> B
-    if (Controller.ButtonB.pressing()){
-      return 1;
-    } else {
-      return 0;
-    }
-  }
-
-  */
   
   
   

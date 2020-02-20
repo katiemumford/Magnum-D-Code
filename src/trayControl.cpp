@@ -14,10 +14,10 @@ void moveTray(int pct) {
 void trayControl() {
 
   if (Controller.ButtonL2.pressing()){    //if L2 continously pressed, move tray towards limit switch
-    if (trayLimit.value()==1){
-      moveTray(0);
-    } else {
+    if (trayLimit.value()!=1){ //if limit switch isn't hit move tray
       moveTray(-70);
+    } else {
+      moveTray(0);
     }                     
   } else if (Controller.ButtonL1.pressing()){    //if L1 continously pressed, move tray away from limit switch
     moveTray(20);

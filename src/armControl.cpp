@@ -3,10 +3,7 @@ using namespace vex;
 
 //all arm related functions
 
-
-////////////////////state machine type beat
 /*
-
 arms have three positions:
 1) intake position         --> 0           
 2) low twr                 --> 1
@@ -16,99 +13,80 @@ plan: have three functions
 1) changes value of int with a button press   changeStateNum()
 2) checks the state of the arms               checksStateNum()
 3) moves arms to state they need to be in     moveArmState()
-
 --> use limit switch on arms to reset encoder of arm motor everytime they hit zero as well as limit in general
-
 */
 
 
-int armState = 0; 
-int contArmState = 0; 
+int armState = 0; //physical location
+int contArmState = 0; //where controller wants arms to go
 
-void changeStateNum(){        //changes value of contArmState. used by controller when button a is pressed 
-Controller.Screen.print(armState);  //4:00 weds, this function was entered after B was pressed
-  if (contArmState == 2){    //checks if arms are in top state and will change 
-    //contArmState = 0;
-    Controller.Screen.print("in if"); // keeps entering here for some reason
+//changes value of contArmState w/ button
+void changeContArmState(){         
+  if (contArmState != 2){    //checks if arms are in top state
+    contArmState++;
   } else {
-     Controller.Screen.print("in else");
-     contArmState++;   //if at else, then it means arms can go up by one and will be increased accordingly
+     contArmState = 0;   //if arms are in top, change to 0 to go down
   }
 }
 
-
-////////////test printing/////////////////////
-
-
-
-int count = 0;
-void testMe(){
-
+//when X pressed once, changes contArmState
+void controllerChangeStateNum(){             
 if (xPressed()){
-  Controller.Screen.print("suck");
+  changeContArmState(); 
 }
-if (yPressed()){
-  Controller.Screen.print("my");
-}
-if (bPressed()){
-  Controller.Screen.print("dick");
-}
-if (aPressed()){
-  Controller.Screen.print("james!");
-}
-// if (getButton(2)==1){
-//   count = 1; 
-// }
-// if (getButton(3)==1){
-//   Controller.Screen.clearScreen();
-//   Controller.Screen.print("Cleaning time");
-// }
 }
 
-
-
-////////////////////////////////
-
-
-
-void controllerChangeStateNum(){              //changes value of int with button press
-Controller.ButtonB.pressed(changeStateNum);  //when button a is pressed it will change the value of contArmState
-}
-
-
-
-void moveArmToLowTwr(){
 //move arm to low tower height
+void moveArmToLowTwr(){
 armState = 1;
 }
 
-void moveArmToMidTwr(){
 //move arm to mid tower height
+void moveArmToMidTwr(){
 armState = 2;
 }
 
-void moveArmToBase(){
-//move arm to intake position 
-armState = 0;
+//move arm to intake position
+void moveArmToBase(){ 
+if (armLimit.value() != 1){ 
+  //
+} else {
+  armState = 0;
+  arm.resetPosition();
+}
 }
 
-void checkIfMoveArm(){    //checks if the arm state is the same or if it needs to change
-  if (armState == contArmState){   //
-    //arm do nothing, lock, stay where it is
-  } else { //check which functions to call
-  if (contArmState == 1){
+//checks if need to move arm
+void checkIfMoveArm(){    
+  if (armState != contArmState){   //checks if physical arm location is different than the controller's
+    if (contArmState == 1){
     moveArmToLowTwr();
   } else if (contArmState == 2){
     moveArmToMidTwr();
   } else if (contArmState == 0){
     moveArmToBase();
   }
+   } else {    //arms are where controller wants them to be
+     //default state; don't move arm at all or just down power type beat
   }
 }
 
-////////////////////////////////////////////////////////////////////
+void macArmControl(){
+  checkIfMoveArm(); 
+}
 
-void moveArm(int pct) {    //adjustable function that moves arm to given percent value 
+//READY TO BE TESTED ON A ROBOT --> IN THEORY, CAN CHECK CONTARMSTATE AND WHETHER PRESSING X DOES ANYTHING RIGHT
+void testMe(){
+   controllerChangeStateNum();
+  if (yPressed()){
+    Controller.Screen.print(contArmState);
+  }
+}
+
+//////////////////////classic manual arm code///////////////////////////
+//adjustable function that moves arm to given percent value
+//if given "0" will brake 
+void moveArm(int pct) {     
   if (pct != 0) {
     arm.spin(vex::directionType::fwd, pct, vex::velocityUnits::pct);
   } else {
@@ -116,7 +94,7 @@ void moveArm(int pct) {    //adjustable function that moves arm to given percent
   }
 }
 
-void armControl() {   //code that moves   
+void manualArmControl() {   //code that moves   
 if (Controller.ButtonX.pressing()){
   moveArm(-80);
 } else if (Controller.ButtonB.pressing()){
@@ -125,13 +103,12 @@ if (Controller.ButtonX.pressing()){
   moveArm(5);
 }
 }
+////////////////////////////////////////////////////////////////////
 
 int allowArmsForUser(){     //function that task calls
   while(true){
-    //armControl();     //commented arm control out to test if incrementing works
-  
-    testMe();
-
+    //macArmControl(); 
+    testMe();  
     task::sleep(5);
   } return 1;
 }
