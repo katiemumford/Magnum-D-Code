@@ -26,8 +26,9 @@ extern motor arm;
 //tilter motor declartion
 extern motor tray;   
 
-//limit switch declaration
+//limit switch declarations
 extern limit trayLimit;
+extern limit armLimit; 
 
 
 /**

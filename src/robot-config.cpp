@@ -31,6 +31,7 @@ motor tray(vex::PORT14, true);
 
 //initialize the limit switch
 limit trayLimit = limit(Brain.ThreeWirePort.H);
+limit armLimit = limit(Brain.ThreeWirePort.G);
 
 
 /**
