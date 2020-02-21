@@ -17,34 +17,44 @@ plan: have three functions
 --> use limit switch on arms to reset encoder of arm motor everytime they hit zero as well as limit in general
 */
 
-//for toggle between low or mid score
+//for toggle between low/mid score
 //0=low; 1=mid
-int armUplowOrMid = 0;
+int scoreLowOrMid = 0;
 
+//for toggle between low/mid descore
+//0=low; 1=mid
+int descoreLowOrMid = 0;
 
-/*
-//changes value of contArmState w/ X button
-//toggles between 0 and 1                    
-void xButtonToggleArmsScore(){         
-  if (armUplowOrMid == 0){
-    armUplowOrMid = 1;
+//Y button toggles btwn 0 and 1 of scoreLowOrMid 
+void toggleLowMidScore(){             
+if (yPressed()){
+  if (scoreLowOrMid == 0){
+    scoreLowOrMid = 1;
   } else {
-    armUplowOrMid = 0;
+    scoreLowOrMid = 0;
+  } }
+}
+
+//B button toggle btwn 0 and 1 of descoreLowOrMid
+void toggleLowMidDescore(){             
+if (bPressed()){
+  if (descoreLowOrMid == 0){
+    descoreLowOrMid = 1;
+  } else {
+    descoreLowOrMid = 0;
+  } }
+}
+
+//when B pressed, brings arms to intake position
+void armsToBase(){
+  if (bPressed()){
+    //lower arms until they get to limit switch
   }
 }
-*/
 
-//when X pressed once, changes contArmState
-//*WORKS AS OF THURS*// (could combine but will keep seperate for testing purposes)
-void toggleLowMidScore(){             
-if (xPressed()){
-  if (armUplowOrMid == 0){
-    armUplowOrMid = 1;
-  } else {
-    armUplowOrMid = 0;
-  } 
-}
-}
+//when A pressed
+
+
 
 
   /* first draft with all cases. currently commented out to testing simplicity 
@@ -121,8 +131,10 @@ if (xPressed()){
 //READY TO BE TESTED ON A ROBOT --> IN THEORY, CAN CHECK CONTARMSTATE AND WHETHER PRESSING X DOES ANYTHING RIGHT
 void testMe(){
    toggleLowMidScore();
-  if (yPressed()){
-    Controller.Screen.print(armUplowOrMid);
+   toggleLowMidDescore();
+   armsToBase();
+  if (aPressed()){
+    Controller.Screen.print(descoreLowOrMid);
   } 
 }
 
