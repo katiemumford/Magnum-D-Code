@@ -10,54 +10,44 @@ arms have three positions:
 3) mid twr                 --> 2
 
 plan: have three functions
-1) changes value of int with a button press   changeStateNum()
-2) checks the state of the arms               checksStateNum()
-3) moves arms to state they need to be in     moveArmState()
+1) changes value of int with a button press 
+2) checks the state of the arms               
+3) 3 functions that move arms to state they need to be in   
+
 --> use limit switch on arms to reset encoder of arm motor everytime they hit zero as well as limit in general
 */
 
+//for toggle between low or mid score
+//0=low; 1=mid
+int armUplowOrMid = 0;
 
-int armState = 0; //physical location
-int contArmState = 0; //where controller wants arms to go
 
-//changes value of contArmState w/ button
-void changeContArmState(){         
-  if (contArmState != 2){    //checks if arms are in top state
-    contArmState++;
+/*
+//changes value of contArmState w/ X button
+//toggles between 0 and 1                    
+void xButtonToggleArmsScore(){         
+  if (armUplowOrMid == 0){
+    armUplowOrMid = 1;
   } else {
-     contArmState = 0;   //if arms are in top, change to 0 to go down
+    armUplowOrMid = 0;
   }
 }
+*/
 
 //when X pressed once, changes contArmState
-void controllerChangeStateNum(){             
+//*WORKS AS OF THURS*// (could combine but will keep seperate for testing purposes)
+void toggleLowMidScore(){             
 if (xPressed()){
-  changeContArmState(); 
+  if (armUplowOrMid == 0){
+    armUplowOrMid = 1;
+  } else {
+    armUplowOrMid = 0;
+  } 
 }
 }
 
-//move arm to low tower height
-void moveArmToLowTwr(){
-armState = 1;
-}
 
-//move arm to mid tower height
-void moveArmToMidTwr(){
-armState = 2;
-}
-
-//move arm to intake position
-void moveArmToBase(){ 
-if (armLimit.value() != 1){ 
-  //
-} else {
-  armState = 0;
-  arm.resetPosition();
-}
-}
-
-//checks if need to move arm
-void checkIfMoveArm(){    
+  /* first draft with all cases. currently commented out to testing simplicity 
   if (armState != contArmState){   //checks if physical arm location is different than the controller's
     if (contArmState == 1){
     moveArmToLowTwr();
@@ -68,22 +58,76 @@ void checkIfMoveArm(){
   }
    } else {    //arms are where controller wants them to be
      //default state; don't move arm at all or just down power type beat
+  }//physical location
+int armState = 0; 
+//where controller wants arms to go
+int contArmState = 0; 
+
+
+//move arm to intake position
+void moveArmToBase(){
+  Controller.Screen.print("base");
+  armState = 0;
+}
+
+//move arm to low tower height
+void moveArmToLowTwr(){
+  Controller.Screen.print("low");
+  armState = 1;
+}
+
+//move arm to mid tower height
+void moveArmToMidTwr(){
+  Controller.Screen.print("mid");
+  armState = 2;
+}
+
+//checks if need to move arm
+void checkIfMoveArm(){ 
+  if (armState != contArmState){
+    if (contArmState==0){
+      moveArmToBase();
+    } else if(contArmState==1){
+      moveArmToLowTwr();
+    } else if (contArmState==2){
+      moveArmToMidTwr();
+    }
+  } //add an else for do nothing later
+ 
+}
+
+
+//changes value of contArmState w/ button                     
+//if arms aren't in top state, +1 to contArmState
+//if arms are in top, change contArmState to 0 (go to base)
+
+void changeContArmState(){         
+  if (contArmState != 2){    
+    contArmState++;
+  } else {
+     contArmState = 0;   
   }
 }
 
-void macArmControl(){
-  checkIfMoveArm(); 
+//when X pressed once, changes contArmState
+void controllerChangeStateNum(){             
+if (xPressed()){
+  changeContArmState(); 
 }
+}
+
+  */ 
 
 //READY TO BE TESTED ON A ROBOT --> IN THEORY, CAN CHECK CONTARMSTATE AND WHETHER PRESSING X DOES ANYTHING RIGHT
 void testMe(){
-   controllerChangeStateNum();
+   toggleLowMidScore();
   if (yPressed()){
-    Controller.Screen.print(contArmState);
-  }
+    Controller.Screen.print(armUplowOrMid);
+  } 
 }
 
-//////////////////////classic manual arm code///////////////////////////
+//////////////////////classic manual arm code/////////////////////////
+
 //adjustable function that moves arm to given percent value
 //if given "0" will brake 
 void moveArm(int pct) {     
@@ -107,7 +151,6 @@ if (Controller.ButtonX.pressing()){
 
 int allowArmsForUser(){     //function that task calls
   while(true){
-    //macArmControl(); 
     testMe();  
     task::sleep(5);
   } return 1;
