@@ -22,6 +22,7 @@
 #include "intakeControl.h"
 #include "armControl.h"
 #include "pressButtons.h"
+#include "armP.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

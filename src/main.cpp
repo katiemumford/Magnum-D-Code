@@ -9,7 +9,7 @@
 
 #include "vex.h"
 using namespace vex;
- 
+
 /*/////INFORMATION/////
 THIS IS WHERE YOUR MAIN FUNCTION IS
 -where you define tasks and run auton
@@ -23,10 +23,12 @@ the function a task calls must be an int, meaning the function must return an in
 int main() {  //beginning of code
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
 
-  task allowDriveForUserTask(allowDriveForUser);
-  task allowTrayForUserTask(allowTrayForUser);
-  //task allowIntakeForUserTask(allowIntakeForUser);
-  task allowArmsForUserTask(allowArmsForUser); 
+ //task allowDriveForUserTask(allowDriveForUser);
+ //task allowTrayForUserTask(allowTrayForUser);
+ //task allowIntakeForUserTask(allowIntakeForUser);
+  task allowPForUserTask(allowPForUser);
+  //task allowArmsForUserTask(allowArmsForUser); 
+
 
   while (1){ //always have a while, though if all your functions are tasks (which they should be) then this loop should be empty (note it should still be present)
     task::sleep(20); 
