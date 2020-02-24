@@ -1,14 +1,13 @@
 #include "vex.h"
 using namespace vex;
 
-//error = target - sensor value (arm motor encoder's degree amount)
-//speed = error
+//contains PLoooooop & code for arm toggles
 
-const float kp = 0.3; //value that converts degrees to motor speed
+const float kp = 0.5; //value that converts degrees to motor speed
 const float voltConversion = 0.0944;
 int error = 0; //difference between where we want to be and where we are
 int armPower = 0; //motor speed found using loop
-int targetValue = 0;
+int targetValue = 0;  
 
 void moveArmToHeight(int targetValue){  //P loop
 
@@ -16,7 +15,6 @@ error = (targetValue * -1) - arm.position(degrees); // error equals target minus
 armPower = error * kp; //converts error into motor speed
 
 arm.spin(vex::directionType::fwd, (armPower * voltConversion), vex::voltageUnits::volt); // motor spins at speed (voltage)
- 
 }
 
 //for toggle between 4 arm states
@@ -50,56 +48,49 @@ void armsToBase(){
   }
 }
 
-void allowToggle(){
-  toggleLowMidScore();
-  toggleLowMidDescore();
-  armsToBase();
-}
-
-void macroArmControl(){
-switch(armState){
-    case 0:
-        //bring arms to base
-        Brain.Screen.printAt(10, 60, "base");        
-        break;
-    case 1:
-        //bring arms to low tower scoring height
-        //Controller.Screen.print("lowtwr.score"); 
-        Brain.Screen.printAt(10, 60, "score low twr");
-        break;
-    case 2:
-        //bring arms to mid tower scoring height
-        //Controller.Screen.print("midtwr.score"); 
-        Brain.Screen.printAt(10, 60, "score mid twr");
-        break;
-    case 3:
-        //bring arms to low tower descoring height
-        //Controller.Screen.print("lowtwr.descore");
-        Brain.Screen.printAt(10, 60, "descore low twr");
-        break;
-    case 4:
-        //bring arms to mid tower descoring height
-        //Controller.Screen.print("midtwr.descore");
-        Brain.Screen.printAt(10, 60, "descore mid twr");
-        break;
-}
-}
-
-void whatIsArmState(){
+void getArmstate(){
   if (aPressed()){
     Controller.Screen.print(armState);
   }
 }
 
-int allowPForUser(){   //function that task calls
+
+void macroArmControl(){
+switch(armState){
+    case 0:
+        targetValue = 0;
+        Brain.Screen.printAt(10, 60, "base");        
+        break;
+    case 1:
+        //bring arms to low tower scoring height
+        targetValue = 500;
+        Brain.Screen.printAt(10, 60, "score low twr");
+        break;
+    case 2:
+         Brain.Screen.printAt(10, 60, "score mid twr");
+         targetValue = 600;
+        //bring arms to mid tower scoring height
+        break;
+    case 3:
+        //bring arms to low tower descoring height
+        Brain.Screen.printAt(10, 60, "descore low twr");
+        break;
+    case 4:
+        //bring arms to mid tower descoring height
+        Brain.Screen.printAt(10, 60, "descore mid twr");
+        break;
+}
+}
+
+int allowMacroArmsForUser(){   //function that task calls
   while (true){
 
     macroArmControl();
     moveArmToHeight(targetValue);
-    whatIsArmState();
-    allowToggle();
-    
-
+    toggleLowMidScore();
+    toggleLowMidDescore();
+    armsToBase();
+    getArmstate();
 
   /*  for testing P loop
   Brain.Screen.printAt(10, 60, "degrees %f", arm.position(degrees));

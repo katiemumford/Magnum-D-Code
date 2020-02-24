@@ -20,9 +20,9 @@
 #include "driveBaseControl.h"
 #include "trayControl.h"
 #include "intakeControl.h"
-#include "armControl.h"
+#include "manualArmControl.h"
 #include "pressButtons.h"
-#include "armP.h"
+#include "macroArmControl.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

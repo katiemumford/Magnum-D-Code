@@ -4,4 +4,4 @@
 *note within armControl.cpp there is a moveArm and armControl function
 */
 
-int allowArmsForUser();
+int allowManualArmsForUser(); 

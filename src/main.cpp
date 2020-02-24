@@ -23,12 +23,17 @@ the function a task calls must be an int, meaning the function must return an in
 int main() {  //beginning of code
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
 
- //task allowDriveForUserTask(allowDriveForUser);
- //task allowTrayForUserTask(allowTrayForUser);
- //task allowIntakeForUserTask(allowIntakeForUser);
-  task allowPForUserTask(allowPForUser);
-  //task allowArmsForUserTask(allowArmsForUser); 
+  task allow_PressButtons_ForUserTask(allowPressButtons);
 
+  task allow_Drive_ForUserTask(allowDriveForUser);
+
+  task allow_Tray_ForUserTask(allowTrayForUser);
+
+  task allow_Intake_ForUserTask(allowIntakeForUser);
+
+  task allow_MacroArms_ForUserTask(allowMacroArmsForUser);
+
+  task allow_ManualArms_ForUserTask(allowManualArmsForUser); 
 
   while (1){ //always have a while, though if all your functions are tasks (which they should be) then this loop should be empty (note it should still be present)
     task::sleep(20); 

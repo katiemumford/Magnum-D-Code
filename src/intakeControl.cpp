@@ -19,7 +19,7 @@ void intakeControl() {
   } else if (Controller.ButtonR2.pressing()){
     spinIntake(-100);
   } else {
-    spinIntake(5);
+    spinIntake(0);
   }
 }
 

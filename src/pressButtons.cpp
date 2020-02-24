@@ -5,6 +5,9 @@ bool buttonXPressed = false;
 bool buttonYPressed = false;
 bool buttonBPressed = false;
 bool buttonAPressed = false;
+bool buttonUpPressed = false;
+bool buttonDownPressed = false;
+
 
 int xPressed(){                
     if (Controller.ButtonX.pressing()){
@@ -53,6 +56,45 @@ int aPressed(){
     }
     return 0; 
 }
+
+int upPressed(){
+  if (Controller.ButtonUp.pressing()){
+    if (!buttonUpPressed){
+      buttonUpPressed = true;
+      return 1;
+    }
+    } if (!Controller.ButtonUp.pressing()){
+      buttonUpPressed = false;
+    }
+    return 0;
+}
+
+int downPressed(){
+  if (Controller.ButtonDown.pressing()){
+    if (!buttonDownPressed){
+      buttonDownPressed = true;
+      return 1;
+    }
+    } if (!Controller.ButtonDown.pressing()){
+      buttonDownPressed = false;
+    }
+    return 0;
+}
+
+int allowPressButtons(){   //function task calls
+
+while (true){
+xPressed(); 
+yPressed();
+bPressed();
+aPressed();
+upPressed();
+downPressed();
+task::sleep(5);
+} return 1;
+}
+
+
   
   
   
