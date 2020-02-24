@@ -3,7 +3,7 @@ using namespace vex;
 
 //contains PLoooooop & code for arm toggles
 
-const float kp = 0.5; //value that converts degrees to motor speed
+const float kp = 0.299998; //value that converts degrees to motor speed
 const float voltConversion = 0.0944;
 int error = 0; //difference between where we want to be and where we are
 int armPower = 0; //motor speed found using loop
@@ -54,7 +54,6 @@ void getArmstate(){
   }
 }
 
-
 void macroArmControl(){
 switch(armState){
     case 0:
@@ -74,10 +73,12 @@ switch(armState){
     case 3:
         //bring arms to low tower descoring height
         Brain.Screen.printAt(10, 60, "descore low twr");
+        targetValue = 200;
         break;
     case 4:
         //bring arms to mid tower descoring height
         Brain.Screen.printAt(10, 60, "descore mid twr");
+        targetValue = 300;
         break;
 }
 }
@@ -98,7 +99,6 @@ int allowMacroArmsForUser(){   //function that task calls
   Brain.Screen.printAt(10, 100, "error %f", error);
   Brain.Screen.printAt(10, 120, "power %f", armPower);
   */
-
   task::sleep(5);
   } 
   return 1;
