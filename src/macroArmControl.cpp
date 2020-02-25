@@ -3,11 +3,11 @@ using namespace vex;
 
 //contains PLoooooop & code for arm toggles
 
-const float kp = 0.2998888; //value that converts degrees to motor speed    0.299988
+const float kp = 0.89; //value that converts degrees to motor speed    0.299988
 const float voltConversion = 0.0944;
-error = 0; //difference between where we want to be and where we are
-int armPower = 0; //motor speed found using loop
-int targetValue = 0;  
+float error = 0; //difference between where we want to be and where we are
+float armPower = 0; //motor speed found using loop
+float targetValue = 0;  
 
 void moveArmToHeight(int targetValue){  //P loop
 
@@ -58,16 +58,16 @@ void macroArmControl(){
 switch(armState){
     case 0:
         targetValue = 0;
-      //  Brain.Screen.printAt(10, 60, "base");        
+      //  Brain.Screen.printAt(10, 60, "base");  //apply continous down power eventually      
         break;
     case 1:
         //bring arms to low tower scoring height
-        targetValue = 500;
+        targetValue = 400;
        // Brain.Screen.printAt(10, 60, "score low twr");
         break;
     case 2:
        //  Brain.Screen.printAt(10, 60, "score mid twr");
-         targetValue = 600;
+         targetValue = 500;
         //bring arms to mid tower scoring height
         break;
     case 3:
@@ -98,9 +98,9 @@ int allowMacroArmsForUser(){   //function that task calls
 
  // for testing P loop
   Brain.Screen.printAt(10, 60, "degrees %lf", arm.position(degrees));
-  Brain.Screen.printAt(10, 80, "target value %d", targetValue);
-  Brain.Screen.printAt(10, 100, "error %d", error);
-  Brain.Screen.printAt(10, 120, "power %d", armPower);
+  Brain.Screen.printAt(10, 80, "target value %f", targetValue);
+  Brain.Screen.printAt(10, 100, "error %f", error);
+  Brain.Screen.printAt(10, 120, "power %f", armPower);
 
   task::sleep(5);
   } 
