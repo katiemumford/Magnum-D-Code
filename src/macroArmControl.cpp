@@ -3,9 +3,9 @@ using namespace vex;
 
 //contains PLoooooop & code for arm toggles
 
-const float kp = 0.299998; //value that converts degrees to motor speed
+const float kp = 0.2998888; //value that converts degrees to motor speed    0.299988
 const float voltConversion = 0.0944;
-int error = 0; //difference between where we want to be and where we are
+error = 0; //difference between where we want to be and where we are
 int armPower = 0; //motor speed found using loop
 int targetValue = 0;  
 
@@ -58,29 +58,34 @@ void macroArmControl(){
 switch(armState){
     case 0:
         targetValue = 0;
-        Brain.Screen.printAt(10, 60, "base");        
+      //  Brain.Screen.printAt(10, 60, "base");        
         break;
     case 1:
         //bring arms to low tower scoring height
         targetValue = 500;
-        Brain.Screen.printAt(10, 60, "score low twr");
+       // Brain.Screen.printAt(10, 60, "score low twr");
         break;
     case 2:
-         Brain.Screen.printAt(10, 60, "score mid twr");
+       //  Brain.Screen.printAt(10, 60, "score mid twr");
          targetValue = 600;
         //bring arms to mid tower scoring height
         break;
     case 3:
         //bring arms to low tower descoring height
-        Brain.Screen.printAt(10, 60, "descore low twr");
+       // Brain.Screen.printAt(10, 60, "descore low twr");
         targetValue = 200;
         break;
     case 4:
         //bring arms to mid tower descoring height
-        Brain.Screen.printAt(10, 60, "descore mid twr");
+       // Brain.Screen.printAt(10, 60, "descore mid twr");
         targetValue = 300;
         break;
 }
+}
+void allowToggles(){
+  toggleLowMidScore();
+  toggleLowMidDescore();
+  armsToBase();
 }
 
 int allowMacroArmsForUser(){   //function that task calls
@@ -88,17 +93,15 @@ int allowMacroArmsForUser(){   //function that task calls
 
     macroArmControl();
     moveArmToHeight(targetValue);
-    toggleLowMidScore();
-    toggleLowMidDescore();
-    armsToBase();
     getArmstate();
+    allowToggles();
 
-  /*  for testing P loop
-  Brain.Screen.printAt(10, 60, "degrees %f", arm.position(degrees));
-  Brain.Screen.printAt(10, 80, "target value %f", targetValue);
-  Brain.Screen.printAt(10, 100, "error %f", error);
-  Brain.Screen.printAt(10, 120, "power %f", armPower);
-  */
+ // for testing P loop
+  Brain.Screen.printAt(10, 60, "degrees %lf", arm.position(degrees));
+  Brain.Screen.printAt(10, 80, "target value %d", targetValue);
+  Brain.Screen.printAt(10, 100, "error %d", error);
+  Brain.Screen.printAt(10, 120, "power %d", armPower);
+
   task::sleep(5);
   } 
   return 1;

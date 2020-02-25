@@ -81,18 +81,6 @@ int downPressed(){
     return 0;
 }
 
-int allowPressButtons(){   //function task calls
-
-while (true){
-xPressed(); 
-yPressed();
-bPressed();
-aPressed();
-upPressed();
-downPressed();
-task::sleep(5);
-} return 1;
-}
 
 
   

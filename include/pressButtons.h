@@ -4,5 +4,4 @@ int bPressed();
 int aPressed();
 int upPressed();
 int downPressed();
-int allowPressButtons();
 

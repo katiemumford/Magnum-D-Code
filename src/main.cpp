@@ -23,7 +23,6 @@ the function a task calls must be an int, meaning the function must return an in
 int main() {  //beginning of code
   vexcodeInit(); // Initializing Robot Configuration. DO NOT REMOVE!
 
-  task allow_PressButtons_ForUserTask(allowPressButtons);
 
   //task allow_Drive_ForUserTask(allowDriveForUser);
 
