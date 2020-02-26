@@ -15,8 +15,10 @@ void moveArm(int pct) {
 
 void manualArmControl() {              //code that moves arms manually 
 if (Controller.ButtonUp.pressing()){
+  manualMovingg = true;
   moveArm(-80);
 } else if (Controller.ButtonDown.pressing()){
+  manualMovingg = true;
   moveArm(80);
 } else {
   moveArm(0); 

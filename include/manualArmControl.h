@@ -5,3 +5,4 @@
 */
 
 int allowManualArmsForUser(); 
+extern bool manualMovingg; 
