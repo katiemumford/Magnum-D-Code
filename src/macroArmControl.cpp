@@ -86,18 +86,18 @@ switch(armState){
         break;
     case 2:
        //  Brain.Screen.printAt(10, 60, "score mid twr");
-         targetValue = 500;
+         targetValue = 550;
         //bring arms to mid tower scoring height
         break;
     case 3:
         //bring arms to low tower descoring height
        // Brain.Screen.printAt(10, 60, "descore low twr");
-        targetValue = 200;
+        targetValue = 400;
         break;
     case 4:
         //bring arms to mid tower descoring height
        // Brain.Screen.printAt(10, 60, "descore mid twr");
-        targetValue = 300;
+        targetValue = 500;
         break;
 }
 }
