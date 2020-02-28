@@ -1,14 +1,15 @@
 #include "vex.h"
 using namespace vex;
 
-
+//represents state of tray 0 = intake pos, 1 = defence pos, 2 = stack pos
+int trayState = 0; 
 const float voltConversion = 0.0944; 
-int trayState = 0; //represents state of tray 0 = intake pos, 1 = defence pos, 2 = stack pos
+
 
 //locations for positions 
-float defensePos = -900;     //CHANGE/TUNE
-float stackCheckPoint1 = 30;
-float stackCheckPoint2 = 20;
+float defensePos = -900;     
+float stackCheckPoint1 = -930;
+float stackCheckPoint2 = -1200;
 float stackCheckPoint3 = -1700;
 
 
@@ -24,10 +25,9 @@ void moveTrayVolt(float trayPower){
 }
 
 //moves tray to intake position and resets encoder
-void moveToIntakePos(){                   //if limit switch isn't hit (means tray isn't back yet) 
-   if (trayLimit.value() != 1){      //move tray back until limit switch IS hit
+void moveToIntakePos(){            
+   if (trayLimit.value() != 1){           
       moveTrayVolt(-60);
-      Controller.Screen.print("bruh");
    } else {
      moveTrayVolt(0);
      tray.resetPosition();
@@ -45,32 +45,32 @@ void moveToDefensePos(){
 
 //moves tray to stacking pos
 void moveToStackPos(){
-  if (tray.position(deg) < stackCheckPoint1){
+  if ((-1 * tray.position(deg)) > stackCheckPoint1){
     moveTrayVolt(50);
-  } else if (tray.position(deg) < stackCheckPoint2) {
-    moveTrayVolt(40);
-  } else if (tray.position(deg) < stackCheckPoint3){
+  } else if ((-1 * tray.position(deg)) > stackCheckPoint2) {
+    moveTrayVolt(30);
+  } else if ((-1 * tray.position(deg)) > stackCheckPoint3){
     moveTrayVolt(20);
   } else {
     moveTrayVolt(0);
   }
 }
 
-
+//if L2 pressed move tray towards limit switch
+//if L1 pressed move tray away from limit switch
 void manualTray(){
-  if (Controller.ButtonL2.pressing()){    //if L2 continously pressed, move tray towards limit switch
-    if (trayLimit.value()!=1){ //if limit switch isn't hit move tray
+  if (Controller.ButtonL2.pressing()){    
+    if (trayLimit.value()!=1){          
       moveTrayVolt(-70);
     } else {
       moveTrayVolt(0);
     }                     
-  } else if (Controller.ButtonL1.pressing()){    //if L1 continously pressed, move tray away from limit switch
+  } else if (Controller.ButtonL1.pressing()){    
     moveTrayVolt(70);
   } else{
     moveTrayVolt(0);
   }
 }
-
 
 void macroTrayControl(){
  switch(trayState){
@@ -89,12 +89,11 @@ void macroTrayControl(){
 }
 }
 
-
 void testMe(){
 
   macroTrayControl();
 
-  if (aPressed()){   //get degrees for testing purposes
+  if (aPressed()){  
     Controller.Screen.print(trayState);
   }
 
