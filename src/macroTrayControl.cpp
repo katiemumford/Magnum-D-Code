@@ -1,6 +1,12 @@
 #include "vex.h"
 using namespace vex;
 
+//generic info: tray control task that allows user to use three macros to move tray between intake, defense, stack pos
+//CURRENTLY: L1 toggles between intake pos and defence pos
+//L2 places the stack
+//Left button enables manual control with L1 going foward and L2 going back. stays this way until other button pressed
+
+
 //represents state of tray 0 = intake pos, 1 = defence pos, 2 = stack pos
 int trayState = 0; 
 const float voltConversion = 0.0944; 
@@ -43,6 +49,7 @@ void moveToDefensePos(){
   }
 }
 
+
 //moves tray to stacking pos
 void moveToStackPos(){
   if ((-1 * tray.position(deg)) > stackCheckPoint1){
@@ -53,6 +60,30 @@ void moveToStackPos(){
     moveTrayVolt(20);
   } else {
     moveTrayVolt(0);
+  }
+}
+
+//L1 button toggles btwn 1 and 2 of armState 
+void toggleIntakeDefense(){             
+if (l1Pressed()){
+  if (trayState == 0){
+    trayState = 1;
+  } else {
+    trayState = 0;
+  } }
+}
+
+//L2 button pressed changes armState to 2 (place stack)
+void placeStack(){
+  if (l2Pressed()){
+    trayState = 2;
+  }
+}
+
+//Left button pressed changes armState to 3 (switch to manual trayControl)
+void enableManual(){
+  if (leftPressed()){
+    trayState = 3;
   }
 }
 
@@ -72,6 +103,7 @@ void manualTray(){
   }
 }
 
+//switch statement that calls tray movement functions depending on trayState value
 void macroTrayControl(){
  switch(trayState){
     case 0:
@@ -93,35 +125,17 @@ void testMe(){
 
   macroTrayControl();
 
+  //prints trayState for testing purposes if A button is pressed  (not compatable with armControl task)
   if (aPressed()){  
     Controller.Screen.print(trayState);
   }
 
+  //prints tray degrees for testing purposes if X is pressed (not compatable with armControl task) 
   if (xPressed()){
-    trayState = 0;
-  }
-
-  if (yPressed()){
-    trayState = 1;
-  }
-
-  if (bPressed()){
-    trayState = 2;
-  }
-
-  if (l1Pressed()){
     Controller.Screen.print(tray.position(deg));
   }
 
-  if(l2Pressed()){
-    trayState = 3;
   }
-
-  }
-
-
-
-
 
 
 int allowMacroTrayForUser(){  //function that task calls

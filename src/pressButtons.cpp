@@ -9,6 +9,7 @@ bool buttonUpPressed = false;
 bool buttonDownPressed = false;
 bool buttonL1Pressed = false;
 bool buttonL2Pressed = false;
+bool buttonLeftPressed = false;
 
 int xPressed(){                
     if (Controller.ButtonX.pressing()){
@@ -105,3 +106,15 @@ int l2Pressed(){
     }
     return 0;
 } 
+
+int leftPressed(){                
+    if (Controller.ButtonLeft.pressing()){
+    if (!buttonLeftPressed){
+      buttonLeftPressed = true;
+      return 1;
+    }
+    } if (!Controller.ButtonLeft.pressing()){
+      buttonLeftPressed = false;
+    }
+    return 0; 
+}
