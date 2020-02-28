@@ -23,6 +23,7 @@
 #include "manualArmControl.h"
 #include "pressButtons.h"
 #include "macroArmControl.h"
+#include "macroTrayControl.h"
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

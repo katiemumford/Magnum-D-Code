@@ -3,6 +3,13 @@ using namespace vex;
 
 //all arm related functions
 
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+
 //adjustable function that moves arm to given percent value
 //if given "0" will brake 
 void moveArm(int pct) {     

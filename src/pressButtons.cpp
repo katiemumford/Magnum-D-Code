@@ -7,7 +7,8 @@ bool buttonBPressed = false;
 bool buttonAPressed = false;
 bool buttonUpPressed = false;
 bool buttonDownPressed = false;
-
+bool buttonL1Pressed = false;
+bool buttonL2Pressed = false;
 
 int xPressed(){                
     if (Controller.ButtonX.pressing()){
@@ -81,9 +82,26 @@ int downPressed(){
     return 0;
 }
 
+int l1Pressed(){
+  if (Controller.ButtonL1.pressing()){
+    if (!buttonL1Pressed){
+      buttonL1Pressed = true;
+      return 1;
+    }
+    } if (!Controller.ButtonL1.pressing()){
+      buttonL1Pressed = false;
+    }
+    return 0;
+}
 
-
-  
-  
-  
-  
+int l2Pressed(){
+  if (Controller.ButtonL2.pressing()){
+    if (!buttonL2Pressed){
+      buttonL2Pressed = true;
+      return 1;
+    }
+    } if (!Controller.ButtonL2.pressing()){
+      buttonL2Pressed = false;
+    }
+    return 0;
+} 
